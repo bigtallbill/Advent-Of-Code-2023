@@ -1,6 +1,6 @@
-defmodule AOC do
-  def p1 do
-    stream = File.stream!("d1/data.txt")
+defmodule AOCD1P1 do
+  def run do
+    stream = File.stream!("assets/d1/data.txt")
 
     Enum.map(stream, &fix_value!(&1))
     |> Enum.sum()
@@ -35,5 +35,3 @@ defmodule AOC do
     |> String.to_integer()
   end
 end
-
-IO.inspect(AOC.p1())

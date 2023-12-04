@@ -1,26 +1,26 @@
-defmodule AOC do
+defmodule AOCD1P2 do
   require IEx
 
-  def p1 do
-    stream = File.stream!("d1/data.txt")
+  def run do
+    stream = File.stream!("assets/d1/data.txt")
 
     Enum.map(stream, &fix_value!(&1))
     |> Enum.sum()
   end
 
-  def replace_words_with_numbers(text) do
+  def replace_words_with_numbers(text) when is_binary(text) do
     String.graphemes(text)
-    |>
+    |> Enum.join("")
   end
 
-  def fix_value!(line) do
-    IO.inspect(line)
+  def fix_value!(line) when is_bitstring(line) do
+    # IO.inspect(line)
 
     String.trim(line)
     |> __MODULE__.replace_words_with_numbers()
     |> (fn value ->
           # IEx.pry()
-          IO.inspect(value)
+          # IO.inspect(value)
           value
         end).()
     # convert to a list of graphemes (characters)
@@ -49,11 +49,9 @@ defmodule AOC do
     end
     |> (fn value ->
           # IEx.pry()
-          IO.inspect(value)
+          # IO.inspect(value)
           value
         end).()
     |> String.to_integer()
   end
 end
-
-IO.inspect(AOC.p1())
