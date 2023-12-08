@@ -34,24 +34,30 @@ defmodule AocD1P2Test do
     assert AOCD1P2.run() != 54159
   end
 
-  test "replace_words_with_numbers" do
-    assert AOCD1P2.replace_words_with_numbers("one212two") == "1212"
+  test "to_ordered_numbers with numbers only" do
+    assert AOCD1P2.to_ordered_numbers(["1", "2", "1", "2"]) == ["1", "2", "1", "2"]
   end
 
-  test "replace_words_with_numbers overlapping" do
-    assert AOCD1P2.replace_words_with_numbers("eightwo") == "82"
+  test "to_ordered_numbers with overlapping numbers" do
+    assert AOCD1P2.to_ordered_numbers(["8", "2"]) == ["8", "2"]
   end
 
-  test "replace_words_with_numbers overlapping 2" do
-    assert AOCD1P2.replace_words_with_numbers("eightwothree") == "823"
+  test "to_ordered_numbers with overlapping numbers and words" do
+    assert AOCD1P2.to_ordered_numbers(["8", "2", "three"]) == ["8", "2", "3"]
   end
 
-  test "replace_words_with_numbers mixed words" do
-    assert AOCD1P2.replace_words_with_numbers("eightwo3four") == "8234"
+  test "to_ordered_numbers with mixed numbers and words" do
+    assert AOCD1P2.to_ordered_numbers(["8", "2", "3", "four"]) == ["8", "2", "3", "4"]
   end
 
-  test "replace_words_with_numbers mixed random characters" do
-    assert AOCD1P2.replace_words_with_numbers("hheightwo3fffourfiveaa") == "82345"
+  test "to_ordered_numbers with mixed numbers, words and random characters" do
+    assert AOCD1P2.to_ordered_numbers(["h", "8", "2", "3", "f", "four", "five", "a", "a"]) == [
+             "8",
+             "2",
+             "3",
+             "4",
+             "5"
+           ]
   end
 
   test "gets the right answer" do

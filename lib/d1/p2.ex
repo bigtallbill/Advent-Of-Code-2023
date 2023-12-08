@@ -12,7 +12,6 @@ defmodule AOCD1P2 do
     # IO.inspect(line)
 
     String.trim(line)
-    |> replace_words_with_numbers()
     |> (fn value ->
           # IEx.pry()
           # IO.inspect(value)
@@ -29,11 +28,6 @@ defmodule AOCD1P2 do
           value
         end).()
     |> String.to_integer()
-  end
-
-  def replace_words_with_numbers(text) when is_binary(text) do
-    String.graphemes(text)
-    |> Enum.join("")
   end
 
   @doc """
@@ -59,18 +53,20 @@ defmodule AOCD1P2 do
   The accumulated list is then reversed to restore the original order.
   """
   def to_ordered_numbers(line) when is_list(line) do
-    Enum.reduce(line, [], fn char, acc ->
-      try do
-        # This is my (probably stupid) way of figuring out if the string is a number
-        _ = String.to_integer(char)
-        # If it is a number then add it to the accumulator
-        # prepending is faster than appending so we reverse the list at the end
-        [char | acc]
-      rescue
-        ArgumentError ->
-          acc
-      end
-    end)
-    |> Enum.reverse()
+    result =
+      Enum.reduce(line, %{charlist: [], numbers: []}, fn char, acc ->
+        try do
+          # This is my (probably stupid) way of figuring out if the string is a number
+          _ = String.to_integer(char)
+          # If it is a number then add it to the accumulator
+          # prepending is faster than appending so we reverse the list at the end
+          %{acc | numbers: [char | acc.numbers]}
+        rescue
+          ArgumentError ->
+            %{acc | charlist: [char | acc.charlist]}
+        end
+      end)
+
+    Enum.reverse(result.numbers)
   end
 end
