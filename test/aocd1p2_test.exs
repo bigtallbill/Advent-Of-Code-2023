@@ -35,23 +35,23 @@ defmodule AocD1P2Test do
   end
 
   test "to_ordered_numbers with numbers only" do
-    assert AOCD1P2.to_ordered_numbers(["1", "2", "1", "2"]) == ["1", "2", "1", "2"]
+    assert AOCD1P2.to_ordered_numbers(String.graphemes("1212")) == ["1", "2", "1", "2"]
   end
 
   test "to_ordered_numbers with overlapping numbers" do
-    assert AOCD1P2.to_ordered_numbers(["8", "2"]) == ["8", "2"]
+    assert AOCD1P2.to_ordered_numbers(String.graphemes("eightwo")) == ["8", "2"]
   end
 
   test "to_ordered_numbers with overlapping numbers and words" do
-    assert AOCD1P2.to_ordered_numbers(["8", "2", "three"]) == ["8", "2", "3"]
+    assert AOCD1P2.to_ordered_numbers(String.graphemes("eightwo3")) == ["8", "2", "3"]
   end
 
   test "to_ordered_numbers with mixed numbers and words" do
-    assert AOCD1P2.to_ordered_numbers(["8", "2", "3", "four"]) == ["8", "2", "3", "4"]
+    assert AOCD1P2.to_ordered_numbers(String.graphemes("8two3four")) == ["8", "2", "3", "4"]
   end
 
   test "to_ordered_numbers with mixed numbers, words and random characters" do
-    assert AOCD1P2.to_ordered_numbers(["h", "8", "2", "3", "f", "four", "five", "a", "a"]) == [
+    assert AOCD1P2.to_ordered_numbers(String.graphemes("height23ffourf5aa")) == [
              "8",
              "2",
              "3",
@@ -60,7 +60,23 @@ defmodule AocD1P2Test do
            ]
   end
 
+  test "number_word_in_suffix with 'one' at the end" do
+    assert AOCD1P2.number_word_in_suffix("helloone") == "1"
+  end
+
+  test "number_word_in_suffix with 'two' at the end" do
+    assert AOCD1P2.number_word_in_suffix("hellotwo") == "2"
+  end
+
+  test "number_word_in_suffix with 'three' at the end" do
+    assert AOCD1P2.number_word_in_suffix("hellothree") == "3"
+  end
+
+  test "number_word_in_suffix with no number word at the end" do
+    assert AOCD1P2.number_word_in_suffix("hello") == nil
+  end
+
   test "gets the right answer" do
-    assert AOCD1P2.run() == 0
+    assert AOCD1P2.run() == 53866
   end
 end

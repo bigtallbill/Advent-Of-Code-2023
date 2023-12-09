@@ -63,10 +63,42 @@ defmodule AOCD1P2 do
           %{acc | numbers: [char | acc.numbers]}
         rescue
           ArgumentError ->
-            %{acc | charlist: [char | acc.charlist]}
+            new_charlist = [char | acc.charlist]
+
+            case number_word_in_suffix(Enum.join(Enum.reverse(new_charlist))) do
+              nil -> %{acc | charlist: new_charlist}
+              number -> %{acc | numbers: [number | acc.numbers], charlist: new_charlist}
+            end
         end
       end)
 
     Enum.reverse(result.numbers)
+  end
+
+  @doc """
+  Takes a string and returns the number word at the end of the string.
+  If there is no number word at the end of the string, it returns nil.
+  """
+  def number_word_in_suffix(text) when is_binary(text) do
+    words = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
+
+    numbers_map = %{
+      one: "1",
+      two: "2",
+      three: "3",
+      four: "4",
+      five: "5",
+      six: "6",
+      seven: "7",
+      eight: "8",
+      nine: "9"
+    }
+
+    find_word = Enum.find(words, fn word -> String.ends_with?(text, word) end)
+
+    case find_word do
+      nil -> nil
+      word -> numbers_map[String.to_atom(word)]
+    end
   end
 end
