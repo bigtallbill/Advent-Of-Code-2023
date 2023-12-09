@@ -12,21 +12,11 @@ defmodule AOCD1P2 do
     # IO.inspect(line)
 
     String.trim(line)
-    |> (fn value ->
-          # IEx.pry()
-          # IO.inspect(value)
-          value
-        end).()
     # convert to a list of graphemes (characters)
     |> String.graphemes()
     # reduce to only a list of numbers in order (discard non-numbers)
     |> to_ordered_numbers()
     |> combine_first_and_last()
-    |> (fn value ->
-          # IEx.pry()
-          # IO.inspect(value)
-          value
-        end).()
     |> String.to_integer()
   end
 
@@ -48,9 +38,9 @@ defmodule AOCD1P2 do
   end
 
   @doc """
-  Takes a list of strings, attempts to convert each string to an integer,
-  and accumulates only the successful conversions in reverse order.
-  The accumulated list is then reversed to restore the original order.
+  Processes a list of strings, attempting to convert each string to an integer.
+  Only successful conversions are accumulated, in reverse order.
+  The final list is then reversed to maintain the original order.
   """
   def to_ordered_numbers(line) when is_list(line) do
     result =
@@ -80,25 +70,20 @@ defmodule AOCD1P2 do
   If there is no number word at the end of the string, it returns nil.
   """
   def number_word_in_suffix(text) when is_binary(text) do
-    words = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
-
     numbers_map = %{
-      one: "1",
-      two: "2",
-      three: "3",
-      four: "4",
-      five: "5",
-      six: "6",
-      seven: "7",
-      eight: "8",
-      nine: "9"
+      "one" => "1",
+      "two" => "2",
+      "three" => "3",
+      "four" => "4",
+      "five" => "5",
+      "six" => "6",
+      "seven" => "7",
+      "eight" => "8",
+      "nine" => "9"
     }
 
-    find_word = Enum.find(words, fn word -> String.ends_with?(text, word) end)
-
-    case find_word do
-      nil -> nil
-      word -> numbers_map[String.to_atom(word)]
-    end
+    Enum.find_value(numbers_map, fn {word, number} ->
+      if String.ends_with?(text, word), do: number
+    end)
   end
 end
