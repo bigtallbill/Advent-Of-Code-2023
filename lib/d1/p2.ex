@@ -1,6 +1,4 @@
 defmodule AOCD1P2 do
-  require IEx
-
   def run do
     stream = File.stream!("assets/d1/data.txt")
 
@@ -9,8 +7,6 @@ defmodule AOCD1P2 do
   end
 
   def fix_value!(line) when is_bitstring(line) do
-    # IO.inspect(line)
-
     String.trim(line)
     # convert to a list of graphemes (characters)
     |> String.graphemes()
