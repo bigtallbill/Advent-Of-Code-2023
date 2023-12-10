@@ -1,21 +1,16 @@
-# Aoc23
+# Advent of Code 2023
 
-**TODO: Add description**
+An attempt by a busy father of two to solve the Advent of Code 2023 problems in Elixir.
 
-## Installation
+DO NOT LOOK AT THE TESTS AS THEY CONTAIN SPOILERS!
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `aoc23` to your list of dependencies in `mix.exs`:
+## Pre-requisites
 
-```elixir
-def deps do
-  [
-    {:aoc23, "~> 0.1.0"}
-  ]
-end
+- Elixir
+
+## Usage
+
+```shell
+mix deps.get
+mix test
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/aoc23>.
-
