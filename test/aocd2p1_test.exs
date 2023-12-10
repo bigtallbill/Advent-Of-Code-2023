@@ -28,8 +28,8 @@ defmodule AocD2P1Test do
            ]) == false
   end
 
-  test "run test 1" do
-    assert AOCD2P1.run_test_1() == 8
+  test "run test" do
+    assert AOCD2P1.run_test() == 8
   end
 
   test "run" do
