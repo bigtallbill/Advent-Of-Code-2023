@@ -61,15 +61,15 @@ defmodule AocD1P2Test do
   end
 
   test "number_word_in_suffix with 'one' at the end" do
-    assert AOCD1P2.number_word_in_suffix("helloone") == "1"
+    assert AOCD1P2.number_word_in_suffix("eno") == "1"
   end
 
   test "number_word_in_suffix with 'two' at the end" do
-    assert AOCD1P2.number_word_in_suffix("hellotwo") == "2"
+    assert AOCD1P2.number_word_in_suffix("owt") == "2"
   end
 
   test "number_word_in_suffix with 'three' at the end" do
-    assert AOCD1P2.number_word_in_suffix("hellothree") == "3"
+    assert AOCD1P2.number_word_in_suffix("eerht") == "3"
   end
 
   test "number_word_in_suffix with no number word at the end" do

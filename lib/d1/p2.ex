@@ -40,7 +40,7 @@ defmodule AOCD1P2 do
   """
   def to_ordered_numbers(line) when is_list(line) do
     result =
-      Enum.reduce(line, %{charlist: [], numbers: []}, fn char, acc ->
+      Enum.reduce(line, %{charlist: "", numbers: []}, fn char, acc ->
         try do
           # This is my (probably stupid) way of figuring out if the string is a number
           _ = String.to_integer(char)
@@ -49,9 +49,9 @@ defmodule AOCD1P2 do
           %{acc | numbers: [char | acc.numbers]}
         rescue
           ArgumentError ->
-            new_charlist = [char | acc.charlist]
+            new_charlist = char <> acc.charlist
 
-            case number_word_in_suffix(Enum.join(Enum.reverse(new_charlist))) do
+            case number_word_in_suffix(new_charlist) do
               nil -> %{acc | charlist: new_charlist}
               number -> %{acc | numbers: [number | acc.numbers], charlist: new_charlist}
             end
@@ -62,24 +62,23 @@ defmodule AOCD1P2 do
   end
 
   @doc """
-  Takes a string and returns the number word at the end of the string.
-  If there is no number word at the end of the string, it returns nil.
+  This function takes a string as input and checks if it ends with a numeric word.
+  The input string should be reversed before being passed to this function.
+  If the reversed string starts with a numeric word, it returns the corresponding number as a string.
+  If it doesn't, it returns nil.
   """
   def number_word_in_suffix(text) when is_binary(text) do
-    numbers_map = %{
-      "one" => "1",
-      "two" => "2",
-      "three" => "3",
-      "four" => "4",
-      "five" => "5",
-      "six" => "6",
-      "seven" => "7",
-      "eight" => "8",
-      "nine" => "9"
-    }
-
-    Enum.find_value(numbers_map, fn {word, number} ->
-      if String.ends_with?(text, word), do: number
-    end)
+    case text do
+      "eno" <> _ -> "1"
+      "owt" <> _ -> "2"
+      "eerht" <> _ -> "3"
+      "ruof" <> _ -> "4"
+      "evif" <> _ -> "5"
+      "xis" <> _ -> "6"
+      "neves" <> _ -> "7"
+      "thgie" <> _ -> "8"
+      "enin" <> _ -> "9"
+      _ -> nil
+    end
   end
 end
