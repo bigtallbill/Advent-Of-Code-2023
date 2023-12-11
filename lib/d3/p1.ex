@@ -48,7 +48,7 @@ defmodule AOCD3P1 do
   end
 
   def run_test do
-    stream = File.stream!("assets/d3/test2.txt")
+    stream = File.stream!("assets/d3/test1.txt")
 
     Enum.map(stream, &parse_line(&1))
     |> Enum.sum()
