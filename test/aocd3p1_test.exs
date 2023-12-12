@@ -3,11 +3,17 @@ defmodule AocD3P1Test do
   doctest AOCD3P1
 
   test "parse_line" do
-    assert AOCD3P1.parse_line("..35..633.") == [%{start: 2, end: 3}, %{start: 6, end: 8}]
+    assert AOCD3P1.parse_line("..35..633.") == %{
+             number_coords: [%{start: 2, end: 3}, %{start: 6, end: 8}],
+             symbol_coords: []
+           }
   end
 
   test "parse_line with symbols" do
-    assert AOCD3P1.parse_line("...$.*....") == "..35..633."
+    assert AOCD3P1.parse_line("...$.*....") == %{
+             number_coords: [],
+             symbol_coords: [%{start: 3, end: 3}, %{start: 5, end: 5}]
+           }
   end
 
   test "run test" do

@@ -67,7 +67,6 @@ defmodule AOCD3P1 do
       |> List.flatten()
       |> Enum.map(fn {i, size} -> %{start: i, end: i + size - 1} end)
 
-    IO.inspect(number_coords)
-    IO.inspect(symbol_coords)
+    %{number_coords: number_coords, symbol_coords: symbol_coords}
   end
 end
