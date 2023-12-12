@@ -55,6 +55,19 @@ defmodule AOCD3P1 do
   end
 
   def parse_line(line) when is_bitstring(line) do
-    String.trim(line)
+    line = String.trim(line)
+
+    number_coords =
+      Regex.scan(~r/\d+/, line, return: :index)
+      |> List.flatten()
+      |> Enum.map(fn {i, size} -> %{start: i, end: i + size - 1} end)
+
+    symbol_coords =
+      Regex.scan(~r/[^\d.]/, line, return: :index)
+      |> List.flatten()
+      |> Enum.map(fn {i, size} -> %{start: i, end: i + size - 1} end)
+
+    IO.inspect(number_coords)
+    IO.inspect(symbol_coords)
   end
 end
