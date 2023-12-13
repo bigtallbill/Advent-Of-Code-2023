@@ -43,14 +43,14 @@ defmodule AOCD3P1 do
   def run do
     stream = File.stream!("assets/d3/data.txt")
 
-    Enum.map(stream, &parse_line(&1))
+    Stream.map(stream, &parse_line(&1))
     |> Enum.sum()
   end
 
   def run_test do
     stream = File.stream!("assets/d3/test1.txt")
 
-    Enum.map(stream, &parse_line(&1))
+    Stream.map(stream, &parse_line(&1))
     |> Enum.sum()
   end
 
@@ -68,5 +68,14 @@ defmodule AOCD3P1 do
       |> Enum.map(fn {i, size} -> %{start: i, end: i + size - 1} end)
 
     %{number_coords: number_coords, symbol_coords: symbol_coords}
+  end
+
+  def numbers_with_adjacent_symbols(%{number_coords: [], symbol_coords: []}) do
+    []
+  end
+
+  def numbers_with_adjacent_symbols(%{number_coords: nums, symbol_coords: []})
+      when is_list(nums) do
+    []
   end
 end
