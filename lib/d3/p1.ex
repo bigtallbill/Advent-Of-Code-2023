@@ -60,22 +60,39 @@ defmodule AOCD3P1 do
     number_coords =
       Regex.scan(~r/\d+/, line, return: :index)
       |> List.flatten()
-      |> Enum.map(fn {i, size} -> %{start: i, end: i + size - 1} end)
+      |> Enum.map(fn {i, size} -> %{start_idx: i, end_idx: i + size - 1} end)
 
     symbol_coords =
       Regex.scan(~r/[^\d.]/, line, return: :index)
       |> List.flatten()
-      |> Enum.map(fn {i, size} -> %{start: i, end: i + size - 1} end)
+      |> Enum.map(fn {i, size} -> %{start_idx: i, end_idx: i + size - 1} end)
 
     %{number_coords: number_coords, symbol_coords: symbol_coords}
   end
 
-  def numbers_with_adjacent_symbols(%{number_coords: [], symbol_coords: []}) do
-    []
-  end
+  def numbers_with_adjacent_symbols(%{number_coords: [], symbol_coords: []}), do: []
 
   def numbers_with_adjacent_symbols(%{number_coords: nums, symbol_coords: []})
-      when is_list(nums) do
+      when is_list(nums),
+      do: []
+
+  def numbers_with_adjacent_symbols(%{number_coords: nums, symbol_coords: symbols})
+      when is_list(nums) and is_list(symbols) do
+    Enum.reduce(nums, [], fn num, acc ->
+      if Enum.any?(symbols, fn %{start_idx: start_idx, end_idx: end_idx} ->
+           num.start_idx - 1 <= end_idx and num.end_idx + 1 >= start_idx
+         end) do
+        [num | acc]
+      else
+        acc
+      end
+    end)
+  end
+
+  def numbers_with_adjacent_symbols(%{number_coords: cur_nums, symbol_coords: cur_symbols}, %{
+        number_coords: prev_nums,
+        symbol_coords: prev_symbols
+      }) do
     []
   end
 end
