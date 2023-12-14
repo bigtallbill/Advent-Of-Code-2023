@@ -4,7 +4,10 @@ defmodule AocD3P1Test do
 
   test "parse_line" do
     assert AOCD3P1.parse_line("..35..633.") == %{
-             number_coords: [%{start_idx: 2, end_idx: 3}, %{start_idx: 6, end_idx: 8}],
+             number_coords: [
+               %{start_idx: 2, end_idx: 3, number: 35},
+               %{start_idx: 6, end_idx: 8, number: 633}
+             ],
              symbol_coords: []
            }
   end

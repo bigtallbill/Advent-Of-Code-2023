@@ -59,13 +59,17 @@ defmodule AOCD3P1 do
 
     number_coords =
       Regex.scan(~r/\d+/, line, return: :index)
-      |> List.flatten()
-      |> Enum.map(fn {i, size} -> %{start_idx: i, end_idx: i + size - 1} end)
+      |> Enum.map(fn {i, size} ->
+        number = String.slice(line, i, size) |> String.to_integer()
+        %{start_idx: i, end_idx: i + size - 1, number: number}
+      end)
 
     symbol_coords =
       Regex.scan(~r/[^\d.]/, line, return: :index)
-      |> List.flatten()
-      |> Enum.map(fn {i, size} -> %{start_idx: i, end_idx: i + size - 1} end)
+      |> Enum.map(fn {i, size} ->
+        symbol = String.slice(line, i, size)
+        %{start_idx: i, end_idx: i + size - 1, symbol: symbol}
+      end)
 
     %{number_coords: number_coords, symbol_coords: symbol_coords}
   end
@@ -74,6 +78,10 @@ defmodule AOCD3P1 do
 
   def numbers_with_adjacent_symbols(%{number_coords: nums, symbol_coords: []})
       when is_list(nums),
+      do: []
+
+  def numbers_with_adjacent_symbols(%{number_coords: [], symbol_coords: symbols})
+      when is_list(symbols),
       do: []
 
   def numbers_with_adjacent_symbols(%{number_coords: nums, symbol_coords: symbols})
@@ -93,6 +101,21 @@ defmodule AOCD3P1 do
         number_coords: prev_nums,
         symbol_coords: prev_symbols
       }) do
-    []
+    cur_nums_with_adjacent_symbols =
+      numbers_with_adjacent_symbols(%{
+        number_coords: cur_nums,
+        symbol_coords: cur_symbols
+      })
+
+    prev_nums_with_adjacent_symbols =
+      numbers_with_adjacent_symbols(%{
+        # we want to check the current numbers against the previous symbols
+        number_coords: cur_nums,
+        symbol_coords: prev_symbols
+      })
+
+    cur_nums_with_adjacent_symbols
+    |> Enum.concat(prev_nums_with_adjacent_symbols)
+    |> Enum.uniq()
   end
 end
