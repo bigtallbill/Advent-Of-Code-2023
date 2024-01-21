@@ -59,19 +59,27 @@ defmodule AOCD3P1 do
 
     number_coords =
       Regex.scan(~r/\d+/, line, return: :index)
-      |> Enum.map(fn {i, size} ->
-        number = String.slice(line, i, size) |> String.to_integer()
-        %{start_idx: i, end_idx: i + size - 1, number: number}
-      end)
+      |> match_to_numbers(line)
 
     symbol_coords =
       Regex.scan(~r/[^\d.]/, line, return: :index)
-      |> Enum.map(fn {i, size} ->
-        symbol = String.slice(line, i, size)
-        %{start_idx: i, end_idx: i + size - 1, symbol: symbol}
-      end)
+      |> match_to_symbols(line)
 
     %{number_coords: number_coords, symbol_coords: symbol_coords}
+  end
+
+  def match_to_numbers(coords, line) do
+    Enum.map(coords, fn [{i, size}] ->
+      number = String.slice(line, i, size) |> String.to_integer()
+      %{start_idx: i, end_idx: i + size - 1, number: number}
+    end)
+  end
+
+  def match_to_symbols(symbols, line) do
+    Enum.map(symbols, fn [{i, size}] ->
+      number = String.slice(line, i, size)
+      %{start_idx: i, end_idx: i + size - 1, symbol: number}
+    end)
   end
 
   def numbers_with_adjacent_symbols(%{number_coords: [], symbol_coords: []}), do: []
